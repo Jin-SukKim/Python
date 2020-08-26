@@ -1,0 +1,45 @@
+>>>, ... are basic prompt
+
+initializing
+    "="
+    >>> sample = 1 # initializing doesn't return
+    >>> sample2 = 5
+    >>> sample+sample2
+    6
+
+Commenting : using "#"
+    ex) # commenting ....... until the end of the line
+    It can be anywhere except inside of literal
+        ex) # this is comment
+            num = 1 # comment
+                    # comment
+            text = "# this is not comment b/c it's inside quote."
+
+Basic Math
+    +, -, *, /, (), %
+    >>> 8 / 5
+    1.6 # devision always returns a floating point number
+
+    >>> 8 / 5
+    1   # using //, returns int
+
+    >>> 5 ** 2 # using ** for power of some number, 5 squared
+    25
+    >>> 2 ** 7 # 2 to the power of 7
+    128
+
+    >>> 4 * 3.75 -1 # automatic type conversion
+    14.0
+
+    # "_" = last variable. Do not initializing by using "=". 
+    >>> tax = 12.5 / 100 
+    >>> price = 100.50
+    >>> price * tax
+    12.5625
+    >>> price + _
+    113.0625
+    >>> round(_, 2)
+    113.06
+
+    support int, float, decimal, fraction, imaginary number ect
+    imaginary number using j or J (5+3j)

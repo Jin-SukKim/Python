@@ -1,0 +1,105 @@
+Literal
+    '' or "" return same value
+    special cases : put \ infront (\', \" ect)
+
+    >>> 'sample' # print all.
+    'sample'
+    >>> '\"sample'
+    '\"sample'
+
+    >>> print('First line.\nSecond line.') # print literal easier to read
+    First line
+    Second line
+
+    # using r(raw string) infront to print all. Not treating like special cases    
+    >>> print('C:\some\name')  # here \n means newline!
+    C:\some
+    ame
+    >>> print(r'C:\some\name')  # note the r before the quote
+    C:\some\name
+
+    print all lines by using """...""" or '''...'''
+    >>> print("""\
+        Usage: thingy [OPTIONS]
+            -h                        Display this usage message
+            -H hostname               Hostname to connect to
+        """)
+    Usage: thingy [OPTIONS]
+     -h                        Display this usage message
+     -H hostname               Hostname to connect to
+
+    Add literal by using +, repeat by using *
+    >>> # 3 times 'un', followed by 'ium'
+    >>> 3 * 'un' + 'ium'
+    'unununium'
+
+    Automatic add only literals
+    >>> 'Py' 'thon' # good for writing long sentence
+    'Python'
+    
+    >>> prefix = 'Py'
+    >>> prefix 'thon'  # can't concatenate a variable and a string literal
+    File "<stdin>", line 1
+        prefix 'thon'
+                    ^
+    SyntaxError: invalid syntax
+    >>> ('un' * 3) 'ium'
+    File "<stdin>", line 1
+        ('un' * 3) 'ium'
+                    ^
+    SyntaxError: invalid syntax` # should use +
+
+    # read like array
+    >>> word = 'Python'
+    >>> word[0]  # character in position 0
+    'P'
+    >>> word[5]  # character in position 5
+    'n'
+
+    # can read by using negative number
+    # -0 and 0 are same so start with -1
+    >>> word[-1]  # last character
+    'n'
+    >>> word[-2]  # second-last character
+    'o'
+    >>> word[-6]
+    'P'
+
+    Slicing for get substring
+    # word = 'Python'
+    >>> word[0:2]  # characters from position 0 (included) to 2 (excluded)
+    'Py'
+    >>> word[2:5]  # characters from position 2 (included) to 5 (excluded)
+    'tho'
+
+    # start position is always included but end position is not always included
+    >>> word[:2] + word[2:]
+    'Python'
+    >>> word[:4] + word[4:]
+    'Python'
+
+    >>> word[:2]   # character from the beginning to position 2 (excluded)
+    'Py'
+    >>> word[4:]   # characters from position 4 (included) to the end
+    'on'
+    >>> word[-2:]  # characters from the second-last (included) to the end
+    'on'
+
+    # Python's literal is constant
+    # It cannot be changed
+    >>> word[0] = 'J'
+    Traceback (most recent call last):
+    File "<stdin>", line 1, in <module>
+    TypeError: 'str' object does not support item assignment
+
+    # if new literal is needed, should be created
+
+    >>> 'J' + word[1:]
+    'Jython'
+    >>> word[:2] + 'py'
+    'Pypy'
+
+    len(string) is length of the literal
+    >>> word = 'Python'
+    >>> len(word)
+    6
