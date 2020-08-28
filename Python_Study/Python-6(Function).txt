@@ -1,0 +1,85 @@
+Function :
+
+    >>> def fib(n):    # write Fibonacci series up to n
+    ...     """Print a Fibonacci series up to n."""
+    ...     a, b = 0, 1
+    ...     while a < n:
+    ...         print(a, end=' ')
+    ...         a, b = b, a+b
+    ...     print()
+    ...
+    >>> # Now call the function we just defined:
+    ... fib(2000)
+    0 1 1 2 3 5 8 13 21 34 55 89 144 233 377 610 987 1597
+
+    # function start with 'def' which introduces a function definition
+    # The statements that form the body of the function start at he next line. and must be indented
+    ex)
+    >>> def fib(n):    # write Fibonacci series up to n
+    ...     """Print a Fibonacci series up to n."""
+    ...     a, b = 0, 1
+
+    # the first statement of the function body can optionally be a string literal
+    # this literal is the function's documentation string or docstring
+
+    # the variables used in function are sotred in local symbol table and these cannot used from outside of the function
+    # When using global variable, 'global' keyword should be used
+    >>> a=10
+    >>> def f():
+        a=20
+    >>> print (a)
+    10
+    >>> f()
+    >>> print (a)
+    10
+    >>> def f():
+        global a
+        a=20
+    >>> print (a)
+    10
+    >>> f()
+    >>> print (a)
+    20
+
+    # arguments are passed by using call by value b/c function's parameters are stored in local symbol table
+    # values are always reference of object (ex: c++ void f(&x);)
+    >>> a=[10,20,30]
+    >>> def f(l):
+            l[0]=50
+    >>> print(a)
+    [10, 20, 30]
+    >>> f(a)
+    >>> print(a)
+    [50, 20, 30]
+
+
+    # function can allocate to variable like function pointer in c++
+    >>> fib
+    <function fib at 10042ed0>
+    >>> f = fib
+    >>> f(100)
+    0 1 1 2 3 5 8 13 21 34 55 89
+
+    # function always return some values
+    # if function does not have ruturn statement, it returns None (built-in name)
+    >>> fib(0)
+    >>> print(fib(0))
+    None
+
+
+ex)
+
+    >>> def fib2(n):  # return Fibonacci series up to n
+    ...     """Return a list containing the Fibonacci series up to n."""
+    ...     result = []
+    ...     a, b = 0, 1
+    ...     while a < n:
+    ...         result.append(a)    # see below
+    ...         a, b = b, a+b
+    ...     return result
+    ...
+    >>> f100 = fib2(100)    # call it
+    >>> f100                # write the result
+    [0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89]
+ 
+    # result.append(a) is equal to result = result + [a] but more efficient

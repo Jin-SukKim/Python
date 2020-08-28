@@ -103,3 +103,45 @@ Literal
     >>> word = 'Python'
     >>> len(word)
     6
+
+    # in checks word in the string
+    >>> 'Py' in 'Python'
+    True
+
+Method
+    capitalize() 
+        : return first letter uppercase and others are lowercase
+
+    casefold() 
+        : ignore cases (uppercase and lowercase)
+
+    center(width[,fillchar]) 
+        : convert center letter to fillchar
+
+    count(sub[, start[,end]]) 
+        : return count of range of [start, end] whici is not repeated with sub
+
+    encode(encoding="utf-8", errors="strcit") 
+        : return encoded string
+        basic encoding is 'utf-8'
+        
+        errors for treating other errors
+        basic error is 'strict' which occurs UnicodeError when ecoding error happens
+        other possible error value
+            : 'ignore', 'replace', 'xmlcharrefreplace', 'backslashreplace' and codecs.refister_error() names
+
+    endswith(suffix[, start[, end]])
+        : return True, if string end with assigned suffix
+          else False
+    
+    expandtabs(tabsize=8)
+        : resize tab space
+
+    find(sub[, start[, end]])
+        : sub return index of slice string [start:end] range
+          if there is no sub, reutnr -1
+
+    format(*args, **kwrags)
+        : return parameters to where '{}' is
+
+    ect
