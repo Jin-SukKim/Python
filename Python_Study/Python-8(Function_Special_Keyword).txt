@@ -1,0 +1,115 @@
+Functions :
+
+    # Special Keyword
+
+    def f(pos1, pos2, /, pos_or_kwd, *, kwd1, kwd2):
+      -----------    ----------     ----------
+        |             |                  |
+        |        Positional or keyword   |
+        |                                - Keyword only
+         -- Positional only
+
+    # Defualt : arguemtns may be passed to function either by "position" or "keyword"
+    # Tip : For readability and performance, restrict(제한하다) the way arguments are passed so that
+            developer need only look at the function definition to determine how arguments are passed
+
+    # "/" and "*" are optional
+    # These sumbols indicate the kind of parameter by how the arguments may be passed to the function :
+        1) positional-only
+        2) positional-or-keyword
+        3) keyword-only (named parameter)
+
+    # if / and * are not present in the function definition, arguments may be passed to a function by position or by keyword
+
+    # Positional-Only Parameters :
+        - positional-only, the parameters' order matters and the parameters cannot be passed by keyword
+        - Positional-only parameters are placed before a /
+            ex) parameter, /, ...
+
+        # This / is used to logically separate the positional-only parameters from the rest of the parameters
+            - Parameters following the / may be positional-or-keyword or positional-only
+    # Keeyword-Only Arguments :
+        - Keyword-only, indicating the parameters must be passed by keyword arguments
+        - Keyword-only arguments are placed an * in the arguements list just before the first keyword-only parameter
+            ex) *, arguemtns ...
+    
+    Examples :
+        >>> def standard_arg(arg): # position-or-keyword
+        ...     print(arg)
+        ...
+        >>> def pos_only_arg(arg, /): # position-only
+        ...     print(arg)
+        ...
+        >>> def kwd_only_arg(*, arg): # keyword-only
+        ...     print(arg)
+        ...
+        >>> def combined_example(pos_only, /, standard, *, kwd_only):
+        ...     print(pos_only, standard, kwd_only)
+
+        # position or keyword
+            >>> standard_arg(2)
+            2
+            >>> standard_arg(arg=2)
+            2
+        
+        # Position-Only
+            >>> pos_only_arg(1)
+            1
+            
+            >>> pos_only_arg(arg=1)
+            Traceback (most recent call last):
+            File "<stdin>", line 1, in <module>
+            TypeError: pos_only_arg() got an unexpected keyword argument 'arg'
+
+        # Keyword-Only
+            >>> kwd_only_arg(3)
+            Traceback (most recent call last):
+            File "<stdin>", line 1, in <module>
+            TypeError: kwd_only_arg() takes 0 positional arguments but 1 was given
+            
+            >>> kwd_only_arg(arg=3)
+            3
+
+        # All
+            >>> combined_example(1, 2, 3)
+            Traceback (most recent call last):
+            File "<stdin>", line 1, in <module>
+            TypeError: combined_example() takes 2 positional arguments but 3 were given
+
+            >>> combined_example(1, 2, kwd_only=3)
+            1 2 3
+
+            >>> combined_example(1, standard=2, kwd_only=3)
+            1 2 3
+
+            >>> combined_example(pos_only=1, standard=2, kwd_only=3)
+            Traceback (most recent call last):
+            File "<stdin>", line 1, in <module>
+            TypeError: combined_example() got an unexpected keyword argument 'pos_only'
+
+        # potential collision between positional argument and **krds
+            def foo(name, **kwds):
+                return 'name' in kwd
+
+            # No possible call that the function return true
+            >>> foo(1, **{'name': 2})
+            Traceback (most recent call last):
+            File "<stdin>", line 1, in <module>
+            TypeError: foo() got multiple values for argument 'name'
+            >>>
+
+            # But using /, it is possible since it allows name as a positional arguemtns
+            def foo(name, /, **kwds):
+                return 'name' in kwds
+            >>> foo(1, **{'name': 2})
+            True
+
+        # Recap
+            - For an API, use positional-only to prevent breaking API changes
+              if the parameter's name is modified in the future.
+            - 
+            -
+
+
+
+            
