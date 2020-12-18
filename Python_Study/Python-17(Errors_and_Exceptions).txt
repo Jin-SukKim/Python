@@ -1,0 +1,172 @@
+Errors and Exceptions
+
+Syntax Errors (Parsing Errors)
+
+    a little ‘arrow’ pointing at the earliest point in the line where the error was detected.
+
+    ex)
+        >>> while True print('Hello world')
+        File "<stdin>", line 1
+            while True print('Hello world')
+                        ^
+        SyntaxError: invalid syntax
+
+    # the error is detected at the function print(), since a colon (':') is missing before it.
+
+Exceptions
+    
+    exception : errors detected during execution.
+    Most exceptions are not handled by programs.
+
+    ex)
+        >>> 10 * (1/0)
+        Traceback (most recent call last):
+        File "<stdin>", line 1, in <module>
+        ZeroDivisionError: division by zero
+        >>> 4 + spam*3
+        Traceback (most recent call last):
+        File "<stdin>", line 1, in <module>
+        NameError: name 'spam' is not defined
+        >>> '2' + 2
+        Traceback (most recent call last):
+        File "<stdin>", line 1, in <module>
+        TypeError: Can't convert 'int' object to str implicitly
+
+    The last line of the error message indicates what happend.
+
+Handling Exceptions
+    try-except
+
+    ex)
+        >>> while True:
+        ...     try:
+        ...         x = int(input("Please enter a number: "))
+        ...         break
+        ...     except ValueError:
+        ...         print("Oops!  That was no valid number.  Try again...")
+        ...
+
+    try : try execute first.
+          if there's no exception occurs, except clause is skipped.
+          if exception occurs and exception type is matched, exception clause execute.
+          if exception occurs but type is not same, pass to outer try statment.
+          if there's no outer statement, it's an unhandler exception and execute stops with error messages.
+
+    try can have more than one except clauses.
+
+    An except clause may name multiple exceptions as a parenthesized tuple.
+
+    ex)
+        ... except (RuntimeError, TypeError, NameError):
+        ...     pass
+
+    A class in an except clause is compatible with an exception if it is the same class or a base class thereof (but not the other way around — an except clause listing a derived class is not compatible with a base class)
+
+    ex)
+        class B(Exception):
+    pass
+
+    class C(B):
+        pass
+
+    class D(C):
+        pass
+
+    for cls in [B, C, D]:
+        try:
+            raise cls()
+        except D:
+            print("D")
+        except C:
+            print("C")
+        except B:
+            print("B")  
+        
+    it will print B C D in order.
+    if excetp B comes first, it will print B B B.
+    the first matching except clause is triggered.
+
+    The last except clause may omit the exception name(s).
+
+    ex)
+        import sys
+
+        try:
+            f = open('myfile.txt')
+            s = f.readline()
+            i = int(s.strip())
+        except OSError as err:
+            print("OS error: {0}".format(err))
+        except ValueError:
+            print("Could not convert data to an integer.")
+        except:
+            print("Unexpected error:", sys.exc_info()[0])
+            raise
+
+    else clause : execute when exception is not occured.
+
+    ex)
+        for arg in sys.argv[1:]:
+        try:
+            f = open(arg, 'r')
+        except OSError:
+            print('cannot open', arg)
+        else:
+            print(arg, 'has', len(f.readlines()), 'lines')
+            f.close()
+
+    exception's argument
+    The variable is bound to an exception instance with the arguments stored in instance.args
+
+    ex)
+        >>> try:
+        ...     raise Exception('spam', 'eggs')
+        ... except Exception as inst:
+        ...     print(type(inst))    # the exception instance
+        ...     print(inst.args)     # arguments stored in .args
+        ...     print(inst)          # __str__ allows args to be printed directly,
+        ...                          # but may be overridden in exception subclasses
+        ...     x, y = inst.args     # unpack args
+        ...     print('x =', x)
+        ...     print('y =', y)
+        ...
+        <class 'Exception'>
+        ('spam', 'eggs')
+        ('spam', 'eggs')
+        x = spam
+        y = eggs
+
+    exception in the function called by try clause can be handled.
+
+    ex)
+        >>> def this_fails():
+        ...     x = 1/0
+        ...
+        >>> try:
+        ...     this_fails()
+        ... except ZeroDivisionError as err:
+        ...     print('Handling run-time error:', err)
+        ...
+        Handling run-time error: division by zero
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

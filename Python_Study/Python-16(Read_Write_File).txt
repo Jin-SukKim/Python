@@ -1,0 +1,138 @@
+Reading and Writing FIles     
+    
+    open() : return a file object
+    commonly used two arguments : open(filename, mode)
+
+    ex)
+        >>> f = open('workfile', 'w')
+
+        # first argument = a string containing filename
+        # second argument = mode : r(read), w(write), a(open the file for appending, any data written will be added at the end.), r+(open files for read & write)
+        # mode is optional but if it's omitted, it's automatically 'r'
+        # mode = b : binary mode should be used to open files dont contain text.(from of bytes)
+
+    with keyword : To be able to close file properly even if an exception is occured.
+                    It's also shorter than try-finally blocks
+
+    ex)
+        >>> with open('workfile') as f:
+        ...     read_data = f.read()
+
+        >>> # We can check that the file has been automatically closed.
+        >>> f.closed
+        True
+     
+    f.close() method : when not using with keyword and immediately free up any system resources used by it.
+    after file closed, using any statement will automatically fail
+    ex)
+        >>> f.close()
+        >>> f.read()
+        Traceback (most recent call last):
+        File "<stdin>", line 1, in <module>
+        ValueError: I/O operation on closed file.
+
+Method of FIle Object (파일 객체의 매소드)
+    # assume file object, f has already created
+
+    f.read(size) : reads some quantity of data and return string or bytes object 
+    size : omitted or negative, the entire contents of the file will be read and returned
+    at the end it returns ''(empty string).
+
+    ex)
+        >>> f.read()
+        'This is the entire file.\n'
+        >>> f.read()
+        ''
+
+    f.readline() : reads a single line from the file
+    \n is left at the end and it's only omitted on the last line.
+
+    ex)
+        >>> f.readline()
+        'This is the first line of the file.\n'
+        >>> f.readline()
+        'Second line of the file\n'
+        >>> f.readline()
+        ''
+
+    Memory efficient, fast, and leads to simple code
+
+    ex)
+        >>> for line in f:
+        ...     print(line, end='')
+        ...
+        This is the first line of the file.
+        Second line of the file
+
+    To read all : list(f) or f.readlines()
+
+    f.write(string) : writes the contents of the string to the file and reuturn number of characters.
+
+    ex)
+        >>> f.write('This is a test\n')
+        15
+
+    Other types of objects need to be converted to string or bytes
+
+    ex)
+        >>> value = ('the answer', 42)
+        >>> s = str(value)  # convert the tuple to string
+        >>> f.write(s)
+        18
+
+    f.tell() : returns an interger of current file object position.
+               returns number of bytes from beginning of file.
+               returns opaque number when in text 
+    
+    f.seek(offset, whence) : to change the file object's position
+    position is computed from adding offset to a reference point.
+    refernence point = whence 
+    whence = 0(beginning of the file), 1(current file position), 2(end of the file)
+    whence can be omitted b/c 0 is default.
+
+    ex)
+        >>> f = open('workfile', 'rb+')
+        >>> f.write(b'0123456789abcdef')
+        16
+        >>> f.seek(5)      # Go to the 6th byte in the file
+        5
+        >>> f.read(1)
+        b'5'
+        >>> f.seek(-3, 2)  # Go to the 3rd byte before the end
+        13
+        >>> f.read(1)
+        b'd'
+
+    # only valid offset values are those returned from the f.tell(), or zero.
+
+Saving structured data with json
+
+    Serializing : The standard module called json can take Python data hierarchies, and convert them to string representations. (data -> string)
+    Deserializing : Reconstructing the data from the string representation. (string -> data)
+
+    ex)
+        >>> import json
+        >>> json.dumps([1, 'simple', 'list'])
+        '[1, "simple", "list"]'
+
+    dumps() function, called dump() : serializes the object to a text file.
+
+    ex) 
+        if f is a text file object opened for writing
+
+        json.dump(x, f)
+
+    ex)
+        To decode the object again, 
+        if f is a text file object which has been opened for reading
+
+        x = json.load(f)
+
+        
+
+
+
+
+
+
+

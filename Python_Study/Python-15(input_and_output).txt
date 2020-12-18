@@ -1,0 +1,190 @@
+Input and Output
+
+Fancier Output Formatting(장식적인 출력 포맷0)
+
+    Standard ways of writing values : expression statement and print() function
+    sometimes write() method which refrenced as sys.stdout also used.
+
+    There are some ways to formatting output.
+
+    To use formatted string literals, begin a string with f or F before ''.
+    Use {} inside of a string to write Python expression.
+
+    ex)
+        >>> year = 2016
+        >>> event = 'Referendum'
+        >>> f'Results of the {year} {event}'
+        'Results of the 2016 Referendum'
+
+    str.format() method : need more manual efforts
+    Use {} for detailed formatting directive and provide information to be formatted
+
+    ex)
+        >>> yes_votes = 42_572_654
+        >>> no_votes = 43_132_495
+        >>> percentage = yes_votes / (yes_votes + no_votes)
+        >>> '{:-9} YES votes  {:2.2%}'.format(yes_votes, percentage)
+        ' 42572654 YES votes  49.67%'
+
+    using string slicing and concatenation operations to create any layout you can imagine.
+    The string type has some methods that perform useful operations for padding strings to a given column width.
+
+
+    str() function : return representations of values which are fairly human-readable.
+    repr() function : generate representations which can be read by the interpreter or will force a SyntaxError.
+    Many values, such as numbers or structures like lists and dictionaries, have the same representation using either function.
+
+    ex)
+        >>> s = 'Hello, world.'
+        >>> str(s)
+        'Hello, world.'
+        >>> repr(s)
+        "'Hello, world.'"
+        >>> str(1/7)
+        '0.14285714285714285'
+        >>> x = 10 * 3.25
+        >>> y = 200 * 200
+        >>> s = 'The value of x is ' + repr(x) + ', and y is ' + repr(y) + '...'
+        >>> print(s)
+        The value of x is 32.5, and y is 40000...
+        >>> # The repr() of a string adds string quotes and backslashes:
+        ... hello = 'hello, world\n'
+        >>> hellos = repr(hello)
+        >>> print(hellos)
+        'hello, world\n'
+        >>> # The argument to repr() may be any Python object:
+        ... repr((x, y, ('spam', 'eggs')))
+        "(32.5, 40000, ('spam', 'eggs'))"
+
+Formatted String Literals
+
+    The value of Python expressions inside a string by prefixing the string with f or F and writing expressions as {expression}.
+    An optional format specifier can follow the expression.
+
+    ex)
+        >>> import math
+        >>> print(f'The value of pi is approximately {math.pi:.3f}.')
+        The value of pi is approximately 3.142.
+
+    Passing an integer after the ':' will cause that field to be a minimum number of characters wide. 
+    This is useful for making columns line up.
+
+    ex)
+        >>> table = {'Sjoerd': 4127, 'Jack': 4098, 'Dcab': 7678}
+        >>> for name, phone in table.items():
+        ...     print(f'{name:10} ==> {phone:10d}')
+        ...
+        Sjoerd     ==>       4127
+        Jack       ==>       4098
+        Dcab       ==>       7678
+
+    Other modifiers can be used to convert the value before it is formatted. '!a' applies ascii(), '!s' applies str(), and '!r' applies repr():
+
+    ex)
+        >>> animals = 'eels'
+        >>> print(f'My hovercraft is full of {animals}.')
+        My hovercraft is full of eels.
+        >>> print(f'My hovercraft is full of {animals!r}.')
+        My hovercraft is full of 'eels'.
+
+The String format() Method
+
+    Basic usage of the str.format() method
+
+    ex)
+        >>> print('We are the {} who say "{}!"'.format('knights', 'Ni'))
+        We are the knights who say "Ni!"
+
+    {} : foramtted fields are replaced with the object passed into the str.format() method.
+
+    ex)
+        >>> print('{0} and {1}'.format('spam', 'eggs'))
+        spam and eggs
+        >>> print('{1} and {0}'.format('spam', 'eggs'))
+        eggs and spam
+
+    keywords are used in str.format() method, their values are referred to by using keywords
+
+    ex)
+        >>> print('This {food} is {adjective}.'.format(
+        ...       food='spam', adjective='absolutely horrible'))
+        This spam is absolutely horrible.
+
+    Positional and keyword arguments can be arbitrarily combined
+
+    ex)
+        >>> print('The story of {0}, {1}, and {other}.'.format('Bill', 'Manfred',
+                                                            other='Georg'))
+        The story of Bill, Manfred, and Georg.
+
+    ex2)
+        >>> table = {'Sjoerd': 4127, 'Jack': 4098, 'Dcab': 8637678}
+        >>> print('Jack: {0[Jack]:d}; Sjoerd: {0[Sjoerd]:d}; '
+        ...       'Dcab: {0[Dcab]:d}'.format(table))
+        Jack: 4098; Sjoerd: 4127; Dcab: 8637678
+
+    same result by using **
+
+    ex)
+        >>> table = {'Sjoerd': 4127, 'Jack': 4098, 'Dcab': 8637678}
+        >>> print('Jack: {Jack:d}; Sjoerd: {Sjoerd:d}; Dcab: {Dcab:d}'.format(**table))
+        Jack: 4098; Sjoerd: 4127; Dcab: 8637678
+
+    This is particularly useful in combination with the built-in function vars(), which returns a dictionary containing all local variables.
+
+    ex)
+        >>> for x in range(1, 11):
+        ...     print('{0:2d} {1:3d} {2:4d}'.format(x, x*x, x*x*x))
+        ...
+        1   1    1
+        2   4    8
+        3   9   27
+        4  16   64
+        5  25  125
+        6  36  216
+        7  49  343
+        8  64  512
+        9  81  729
+        10 100 1000
+
+Manual String Formatting
+
+    ex)
+        >>> for x in range(1, 11):
+        ...     print(repr(x).rjust(2), repr(x*x).rjust(3), end=' ')
+        ...     # Note use of 'end' on previous line
+        ...     print(repr(x*x*x).rjust(4))
+        ...
+        1   1    1
+        2   4    8
+        3   9   27
+        4  16   64
+        5  25  125
+        6  36  216
+        7  49  343
+        8  64  512
+        9  81  729
+        10 100 1000
+
+    str.rjust() method : align string right and fill left width with spaces.
+    similar method : ljust(), center()
+
+    str.zfill() : pads a numeric string on the left with 0
+
+    ex)
+        >>> '12'.zfill(5)
+        '00012'
+        >>> '-3.14'.zfill(7)
+        '-003.14'
+        >>> '3.14159265359'.zfill(5)
+        '3.14159265359'
+
+Old String Formatting
+
+    % operator (modulo) : 'string' % values, instances of % in string are replaced with zero or more elements of values.
+
+    ex)
+        >>> import math
+        >>> print('The value of pi is approximately %5.3f.' % math.pi)
+        The value of pi is approximately 3.142.
+

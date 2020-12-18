@@ -1,0 +1,134 @@
+Dictionaries
+    - Dictionaries are found from other languages as 《연관 메모리(associative memories)》 or 《연관 배열(associative arrays)》
+    - idexed by key which can be any immutable type (String, num, tuple, ect)
+    - mutable object cannot be key like list
+    - key : value pair
+
+    ex)
+        >>> tel = {'jack': 4098, 'sape': 4139}
+        >>> tel['guido'] = 4127
+        >>> tel
+        {'jack': 4098, 'sape': 4139, 'guido': 4127}
+        >>> tel['jack']
+        4098
+        >>> del tel['sape']
+        >>> tel['irv'] = 4127
+        >>> tel
+        {'jack': 4098, 'guido': 4127, 'irv': 4127}
+        >>> list(tel)
+        ['jack', 'guido', 'irv']
+        >>> sorted(tel)
+        ['guido', 'irv', 'jack']
+        >>> 'guido' in tel
+        True
+        >>> 'jack' not in tel
+        False
+
+        * del : delete
+        * list(d) : returns a list of keys
+        * sorted(d) : sorting
+        * in : check a single key
+
+    dict() contructor
+        
+        builds dictionaries directly from sequences of key-value pairs
+        ex)
+            >>> dict([('sape', 4139), ('guido', 4127), ('jack', 4098)])
+            {'sape': 4139, 'guido': 4127, 'jack': 4098}
+
+    dictionary comprehension
+
+        used to create dictionaries from sequences of key-value pair
+
+        ex) 
+            >>> {x: x**2 for x in (2, 4, 6)}
+            {2: 4, 4: 16, 6: 36}    
+
+    key as String
+
+        ex) 
+            >>> dict(sape=4139, guido=4127, jack=4098)
+            {'sape': 4139, 'guido': 4127, 'jack': 4098}
+
+Looping Techniques
+
+    Dictionary looping
+    By using items() method, key and value can be retrieved at the same time
+
+    ex)
+        >>> knights = {'gallahad': 'the pure', 'robin': 'the brave'}
+        >>> for k, v in knights.items():
+        ...     print(k, v)
+        ...
+        gallahad the pure
+        robin the brave
+
+    Sequence Looping
+    Using enumerate() function to retieve position index and corresponding value at the same time
+
+    ex)
+        >>> for i, v in enumerate(['tic', 'tac', 'toe']):
+        ...     print(i, v)
+        ...
+        0 tic
+        1 tac
+        2 toe
+
+    More Sequences Looping
+    Using zip() function to loop two or more sequences at the same time.
+    It pair up entries of sequences.
+
+    ex)
+        >>> questions = ['name', 'quest', 'favorite color']
+        >>> answers = ['lancelot', 'the holy grail', 'blue']
+        >>> for q, a in zip(questions, answers):
+        ...     print('What is your {0}?  It is {1}.'.format(q, a))
+        ...
+        What is your name?  It is lancelot.
+        What is your quest?  It is the holy grail.
+        What is your favorite color?  It is blue.
+
+    Reverse Looping
+    Using reversed() function
+
+    ex)
+        >>> for i in reversed(range(1, 10, 2)):
+        ...     print(i)
+        ...
+        9
+        7
+        5
+        3
+        1
+
+    Sorted() function
+
+    ex)
+        >>> basket = ['apple', 'orange', 'apple', 'pear', 'orange', 'banana']
+        >>> for i in sorted(basket):
+        ...     print(i)
+        ...
+        apple
+        apple
+        banana
+        orange
+        orange
+        pear
+
+ex)
+
+    >>> import math
+    >>> raw_data = [56.2, float('NaN'), 51.7, 55.3, 52.5, float('NaN'), 47.8]
+    >>> filtered_data = []
+    >>> for value in raw_data:
+    ...     if not math.isnan(value):
+    ...         filtered_data.append(value)
+    ...
+    >>> filtered_data
+    [56.2, 51.7, 55.3, 52.5, 47.8]
+
+
+
+
+
+

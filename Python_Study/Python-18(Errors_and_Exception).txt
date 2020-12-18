@@ -1,0 +1,189 @@
+Raising Exceptions
+
+    raise statement : to force a specified exception to occur.
+
+    ex)
+        >>> raise NameError('HiThere')
+        Traceback (most recent call last):
+        File "<stdin>", line 1, in <module>
+        NameError: HiThere
+
+    raise ValueError  # shorthand for 'raise ValueError()'
+
+    To determine whether an exception was raised.
+
+    ex)
+        >>> try:
+        ...     raise NameError('HiThere')
+        ... except NameError:
+        ...     print('An exception flew by!')
+        ...     raise
+        ...
+        An exception flew by!
+        Traceback (most recent call last):
+        File "<stdin>", line 2, in <module>
+        NameError: HiThere
+    
+Exception Chaining 
+    allows an optional from which enables chaining exceptions.
+
+    ex)
+        # exc must be exception instance or None.
+        raise RuntimeError from exc
+
+    ex2)
+        >>> def func():
+        ...     raise IOError
+        ...
+        >>> try:
+        ...     func()
+        ... except IOError as exc:
+        ...     raise RuntimeError('Failed to open database') from exc
+        ...
+        Traceback (most recent call last):
+        File "<stdin>", line 2, in <module>
+        File "<stdin>", line 2, in func
+        OSError
+
+        The above exception was the direct cause of the following exception:
+
+        Traceback (most recent call last):
+        File "<stdin>", line 4, in <module>
+        RuntimeError: Failed to open database
+
+    Exception chaining happens automatically when an exception is raised inside an except or finally section. Exception chaining can be disabled by using from None idiom
+
+    ex)
+        >>> try:
+        ...     open('database.sqlite')
+        ... except IOError:
+        ...     raise RuntimeError from None
+        ...
+            Traceback (most recent call last):
+            File "<stdin>", line 4, in <module>
+            RuntimeError
+
+User-defined Exceptions
+    Exceptions should typically be derived from the Exception class, either directly or indirectly.
+
+    create a base class for exceptions defined by that module, and subclass that to create specific exception classes for different error conditions
+
+    ex)
+        class Error(Exception):
+            """Base class for exceptions in this module."""
+            pass
+
+        class InputError(Error):
+            """Exception raised for errors in the input.
+
+            Attributes:
+                expression -- input expression in which the error occurred
+                message -- explanation of the error
+            """
+
+            def __init__(self, expression, message):
+                self.expression = expression
+                self.message = message
+
+        class TransitionError(Error):
+            """Raised when an operation attempts a state transition that's not
+            allowed.
+
+            Attributes:
+                previous -- state at beginning of transition
+                next -- attempted new state
+                message -- explanation of why the specific transition is not allowed
+            """
+
+            def __init__(self, previous, next, message):
+                self.previous = previous
+                self.next = next
+                self.message = message
+
+Defining Clean-Up Actions
+
+    ex)
+        >>> try:
+        ...     raise KeyboardInterrupt
+        ... finally:
+        ...     print('Goodbye, world!')
+        ...
+        Goodbye, world!
+        KeyboardInterrupt
+        Traceback (most recent call last):
+        File "<stdin>", line 2, in <module>
+
+    finally : execute at the end before try statement complete.
+              execute whether or not exceptions are occured.
+
+    the finally clause is useful for releasing external resources (such as files or network connections), regardless of whether the use of the resource was successful.
+    
+    ex)
+        >>> def bool_return():
+        ...     try:
+        ...         return True
+        ...     finally:
+        ...         return False
+        ...
+        >>> bool_return()
+        False
+
+    ex2)
+        >>> def divide(x, y):
+        ...     try:
+        ...         result = x / y
+        ...     except ZeroDivisionError:
+        ...         print("division by zero!")
+        ...     else:
+        ...         print("result is", result)
+        ...     finally:
+        ...         print("executing finally clause")
+        ...
+        >>> divide(2, 1)
+        result is 2.0
+        executing finally clause
+        >>> divide(2, 0)
+        division by zero!
+        executing finally clause
+        >>> divide("2", "1")
+        executing finally clause
+        Traceback (most recent call last):
+        File "<stdin>", line 1, in <module>
+        File "<stdin>", line 3, in divide
+        TypeError: unsupported operand type(s) for /: 'str' and 'str'
+
+Predefined Clean-up Actions
+
+    ex)
+        for line in open("myfile.txt"):
+        print(line, end="")
+
+    problem : file is never closed
+
+    ex) solution : The with statement allows objects like files to be used in a way that ensures they are always cleaned up promptly and correctly.
+        with open("myfile.txt") as f:
+        for line in f:
+            print(line, end="")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

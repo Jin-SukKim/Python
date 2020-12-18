@@ -1,0 +1,141 @@
+Module
+    Script : functions or splits program into several files for longer program
+             these files called module which can be imported into main and other modules.
+
+    Module : contain Python definition and statements.
+    
+    ex) fibonacci
+        # Fibonacci numbers module
+        # fibo.py
+
+        def fib(n):    # write Fibonacci series up to n
+            a, b = 0, 1
+            while a < n:
+                print(a, end=' ')
+                a, b = b, a+b
+            print()
+
+        def fib2(n):   # return Fibonacci series up to n
+            result = []
+            a, b = 0, 1
+            while a < n:
+                result.append(a)
+                a, b = b, a+b
+            return result
+
+        # and enter 
+        # able to access functions in fibo.py
+        >>> import fibo
+
+        >>> fibo.fib(1000)
+        0 1 1 2 3 5 8 13 21 34 55 89 144 233 377 610 987
+        >>> fibo.fib2(100)
+        [0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89]
+        >>> fibo.__name__
+        'fibo'
+
+        >>> fib = fibo.fib
+        >>> fib(500)
+        0 1 1 2 3 5 8 13 21 34 55 89 144 233 377
+
+More on modules
+
+    access a module’s global variables with the same notation used to refer to its functions
+
+    ex) modname.itemname
+
+    There is a variant of the import statement that imports names from a module directly into the importing module’s symbol table
+
+    ex)
+        >>> from fibo import fib, fib2
+        >>> fib(500)
+        0 1 1 2 3 5 8 13 21 34 55 89 144 233 377
+
+    ex)
+    import all modules except module that start with _
+        >>> from fibo import *
+        >>> fib(500)
+        0 1 1 2 3 5 8 13 21 34 55 89 144 233 377
+
+    Module name is followed by as which directly access to imported module
+
+    ex)
+        >>> import fibo as fib
+        >>> fib.fib(500)
+        0 1 1 2 3 5 8 13 21 34 55 89 144 233 377
+
+    Similar result by using from
+
+    ex)
+        >>> from fibo import fib as fibonacci
+        >>> fibonacci(500)
+        0 1 1 2 3 5 8 13 21 34 55 89 144 233 377
+
+Executing Modules as script
+
+    when execute python module : python fibo.py <arguments>
+
+    Module Import
+
+    __name__  : it prevent automatically process imported module.
+    ex)
+        if __name__ == "__main__":
+            import sys
+            fib(int(sys.argv[1]))
+
+        $ python fibo.py 50
+        0 1 1 2 3 5 8 13 21 34
+
+        # so when module imported, it is not execute.
+
+        >>> import fibo
+        >>>
+
+Module Search Path
+
+    when importing module, the interpreter search built-in module first
+    If it's not found, it search from a list in sys.path
+
+    sys.path :
+        - The directory containing the input script (or the current directory when no file is specified).
+        - PYTHONPATH (a list of directory names, with the same syntax as the shell variable PATH).
+        - The installation-dependent default
+
+Compiled python files
+
+    To speed up loading modules, Python caches the compiled version of each module in the __pycache__ directory under the name module.
+    Version.pyc : format of the compiled file
+
+    ex) 
+        in CPython release 3.3 the compiled version of spam.py would be cached as 
+        __pycache__/spam.cpython-33.pyc
+
+    .py and .pyc difference is loading speed
+
+    -0 : delete assert statement
+    -00 : delete doc
+
+Standard modules
+
+    sys : built into every Python interpreter
+    sys.ps1, sys.ps2 : define strings used as primary ans secondary prompts when the interpreter is is interactive mode
+
+    ex)
+        >>> import sys
+        >>> sys.ps1
+        '>>> '
+        >>> sys.ps2
+        '... '
+        >>> sys.ps1 = 'C> '
+        C> print('Yuck!')
+        Yuck!
+        C>
+
+    set sys.path
+
+    ex)
+        >>> import sys
+        >>> sys.path.append('/ufs/guido/lib/python')
+
+
+
