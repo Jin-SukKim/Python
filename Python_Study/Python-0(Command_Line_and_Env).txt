@@ -1,0 +1,80 @@
+Command line
+    Syntax and options
+        python [-bBdEhiIOqsSuvVWx?] [-c command | -m module-name | script | - ] [args]
+
+        ex) # basic
+            python temp.py
+
+    Interface options
+        similar with UNIX shell, but provide more methods
+
+            - When called with standard input connected to a tty device, it prompts for commands and executes them until an EOF (an end-of-file character, Ctrl-D on UNIX or Ctrl-Z, Enter on Windows) is read.
+            
+            - When called with a file name argument or with a file as standard input, it reads and executes a script from that file.
+            
+            - When called with a directory name argument, it reads and executes an appropriately named script from that directory.
+            
+            - When called with -c command, it executes the Python statement(s) given as command. 
+              Here command may contain multiple statements separated by newlines. 
+              Leading whitespace is significant in Python statements!
+            
+            - When called with -m module-name, the given module is located on the Python module path and executed as a script.
+
+    In non-interactive mode, the entire input is parsed before it is executed.
+
+    An interface option terminates the list of options consumed by the interpreter.
+    All consecutive arguments will end up in sys.argv(the first element, subscript zero (sys.argv[0])), is a string reflecting the program’s source.
+
+    -c <Command> : Execute Python code in command.
+        Command can be one or more statements separated by newlines, with significant leading whitespace as in normal module code.
+
+        The first elements of sys.argv will be -c and the current directory will be added to the start of sys.path.
+        (It allows modules in that directory to be imported as top level)
+
+        Raises an auditing event(감사이벤트) cpython.run_command with argument command.
+
+    -m <Module-Name> : Search sys.path for the named module and execute its contents as the __main__ module.
+        Since it's module name, there's no .py extention.
+
+        Package names are also permitted. THe interpreter will execute <pkg>.__main__ as the main module.
+
+        The first element of sys.argv will be the full path to the module file (while the module file is being located, the first element will be set to "-m"). 
+        As with the -c option, the current directory will be added to the start of sys.path.
+
+    -I option : run the script in isolated mode where sys.path contains neither the current directory not the user’s site-packages directory.
+        All PYTHON* environment variables are ignored, too.
+
+    ex)
+        # Many standard library modules contain code that is invoked on their execution as a script. 
+        # An example is the timeit module
+        
+        python -m timeit -s 'setup here' 'benchmarked code here'
+        python -m timeit -h # for details
+
+    Many standard library modules contain code that is invoked on their execution as a script. An example is the timeit module.
+
+    Read commands from standard input (sys.stdin). If standard input is a terminal, -i is implied.
+    Then, the first element of sys.argv will be "-" and the current directory will be added to the start of sys.path.
+
+    Auditing event cpython.run_stdin executes with no arguments.
+
+    Script : Execute the Python code contained in script, 
+             which must be a filesystem path referring to either a Python file, 
+             a directory containing a __main__.py file, or a zipfile containing a __main__.py file.
+
+        the first element of sys.argv will be the script name as given on the command line.
+        the directory containing that file is added to start of sys.path and executed as the __main__ module.
+        
+    No interface option : -i is implied, sys.argv[0] is empty string ("") and current directory is added to start of sys.path.
+    Tab-completion and history editing is automatically enabled, if available on your platform.
+
+    --help
+	
+    https://docs.python.org/ko/3.8/using/cmdline.html
+
+
+
+
+
+
+

@@ -1,0 +1,167 @@
+Logging
+    Logging Module : a full featured and flexible logging system.
+
+    ex)
+        # At its simplest, log messages are sent to a file or to sys.stderr.
+
+        import logging
+        logging.debug('Debugging information')
+        logging.info('Informational message')
+        logging.warning('Warning:config file %s not found', 'server.conf')
+        logging.error('Error occurred')
+        logging.critical('Critical error -- shutting down')
+
+        Output :
+        
+        WARNING:root:Warning:config file server.conf not found
+        ERROR:root:Error occurred
+        CRITICAL:root:Critical error -- shutting down
+
+    By default, informational and debugging messages are suppressed and the output is sent to standard error.
+
+    Other Output Options include route messages : email, datagrams, sockets, or to an HTTP Server.
+    New filters can select different routing based on message priority: DEBUG, INFO, WARNING, ERROR, and CRITICAL. 
+
+    Configuration : Configured from Python, loaded from a user editable configuration file without altering application.
+
+Weak Reference
+    Python does automatic memory management (reference counting for most objects, Garbage collection).
+    The memory is freed shortly after the last reference to it has been eliminated.
+
+    Tracking object while it's used creates a reference that makes them permanent.
+
+    weakref module : tools for tracking objects without creating reference.
+        when object is no longer needed, it's automatically removed from a weakref table and a callback is triggered for weakref objects.
+
+    ex)
+        >>> import weakref, gc
+        >>> class A:
+        ...     def __init__(self, value):
+        ...         self.value = value
+        ...     def __repr__(self):
+        ...         return str(self.value)
+        ...
+        >>> a = A(10)                   # create a reference
+        >>> d = weakref.WeakValueDictionary()
+        >>> d['primary'] = a            # does not create a reference
+        >>> d['primary']                # fetch the object if it is still alive
+        10
+        >>> del a                       # remove the one reference
+        >>> gc.collect()                # run garbage collection right away
+        0
+        >>> d['primary']                # entry was automatically removed
+        Traceback (most recent call last):
+        File "<stdin>", line 1, in <module>
+            d['primary']                # entry was automatically removed
+        File "C:/python39/lib/weakref.py", line 46, in __getitem__
+            o = self.data[key]()
+        KeyError: 'primary'
+
+Tools for Working with Lists
+    Sometimes there is a need for alternative implementations with different performance trade-offs.
+
+    array module : provides array() object - a list that stores only homogeneous data and stores it more compactly.
+
+    ex)
+        # an array of numbers stored as two byte unsigned binary numbers (typecode "H") rather than the usual 16 bytes per entry for regular lists of Python int objects.
+
+        >>> from array import array
+        >>> a = array('H', [4000, 10, 700, 22222])
+        >>> sum(a)
+        26932
+        >>> a[1:3]
+        array('H', [10, 700])
+
+    collections module : provides a deque() object - a list with faster appends and pop from the left side but slower lookups in the middle.
+        useful for implementing queues and breadth first tree searches.
+
+    ex)
+        >>> from collections import deque
+        >>> d = deque(["task1", "task2", "task3"])
+        >>> d.append("task4")
+        >>> print("Handling", d.popleft())
+        Handling task1
+        unsearched = deque([starting_node])
+        def breadth_first_search(unsearched):
+            node = unsearched.popleft()
+            for m in gen_moves(node):
+                if is_goal(m):
+                    return m
+                unsearched.append(m)
+
+    bisect module : manipulating sorted lists
+
+    ex)
+        >>> import bisect
+        >>> scores = [(100, 'perl'), (200, 'tcl'), (400, 'lua'), (500, 'python')]
+        >>> bisect.insort(scores, (300, 'ruby'))
+        >>> scores
+        [(100, 'perl'), (200, 'tcl'), (300, 'ruby'), (400, 'lua'), (500, 'python')]
+
+    heapq module : implementing heaps based on regular lists.
+        The lowest valued entry is always kept at position zero.
+        This is useful for applications which repeatedly access the smallest element but do not want to run a full list sort.
+    
+    ex)
+        >>> from heapq import heapify, heappop, heappush
+        >>> data = [1, 3, 5, 7, 9, 2, 4, 6, 8, 0]
+        >>> heapify(data)                      # rearrange the list into heap order
+        >>> heappush(data, -5)                 # add a new entry
+        >>> [heappop(data) for i in range(3)]  # fetch the three smallest entries
+        [-5, 0, 1]
+
+Decimal Floating Point Arithmetic
+    decimal module : a Decimal datatype for decimal floating point arithmetic.
+    useful :
+        financial applications and other uses which require exact decimal representation,
+        control over precision,
+        control over rounding to meet legal or regulatory requirements,
+        tracking of significant decimal places, or
+        applications where the user expects the results to match calculations done by hand.
+
+    ex)
+        # calculating a 5% tax on a 70 cent phone charge gives different results in decimal floating point and binary floating point.
+        # The difference becomes significant if the results are rounded to the nearest cent.
+
+        >>> from decimal import *
+        >>> round(Decimal('0.70') * Decimal('1.05'), 2)
+        Decimal('0.74')
+        >>> round(.70 * 1.05, 2)
+        0.73
+
+    ex2)
+        >>> Decimal('1.00') % Decimal('.10')
+        Decimal('0.00')
+        >>> 1.00 % 0.10
+        0.09999999999999995
+
+        >>> sum([Decimal('0.1')]*10) == Decimal('1.0')
+        True
+        >>> sum([0.1]*10) == 1.0
+        False
+
+    ex3)
+        # The decimal module provides arithmetic with as much precision as needed.
+
+        >>> getcontext().prec = 36
+        >>> Decimal(1) / Decimal(7)
+        Decimal('0.142857142857142857142857142857142857')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

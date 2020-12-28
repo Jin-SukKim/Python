@@ -1,0 +1,4 @@
+{
+    "svn.ignoreMissingSvnWarning": true,
+    "python.pythonPath": "Selenium_Crawling\\selenium\\Scripts\\python.exe"
+}
